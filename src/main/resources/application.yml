@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: password
+    url: jdbc:mysql://localhost:3306/dbseckill?useSSL=true
+  jpa:
+    show-sql: true
+server:
+  port: 8080
+  servlet:
+    context-path: /seckill
