@@ -10,7 +10,7 @@ public class SeckillProduct {
 
     @Id
     @GeneratedValue
-    private long productId;
+    private Long productId;
     private String title;
     private int number;
     private Date startTime;
@@ -21,7 +21,7 @@ public class SeckillProduct {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 

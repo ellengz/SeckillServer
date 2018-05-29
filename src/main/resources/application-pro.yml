@@ -1,0 +1,4 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate # validate the schema with no changes to DB
