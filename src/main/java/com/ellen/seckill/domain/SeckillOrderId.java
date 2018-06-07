@@ -4,16 +4,16 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class SeckillOrderCompositeKey implements Serializable{
+public class SeckillOrderId implements Serializable{
 
     private Long productId;
     private Long userPhone;
 
-    public SeckillOrderCompositeKey() {
+    public SeckillOrderId() {
 
     }
 
-    public SeckillOrderCompositeKey(Long productId, Long userPhone) {
+    public SeckillOrderId(Long productId, Long userPhone) {
         this.productId = productId;
         this.userPhone = userPhone;
     }
@@ -43,7 +43,7 @@ public class SeckillOrderCompositeKey implements Serializable{
             return false;
         }
 
-        SeckillOrderCompositeKey that = (SeckillOrderCompositeKey) obj;
+        SeckillOrderId that = (SeckillOrderId) obj;
         if (productId != that.productId) {
             return false;
         }

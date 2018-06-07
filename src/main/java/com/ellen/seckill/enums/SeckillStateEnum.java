@@ -9,23 +9,23 @@ public enum SeckillStateEnum {
 
     ;
 
-    private int code;
-    private String message;
+    private Integer code;
+    private String msg;
 
-    SeckillStateEnum(int code, String message) {
+    SeckillStateEnum(Integer code, String msg) {
         this.code = code;
-        this.message = message;
+        this.msg = msg;
     }
 
     public int getCode() {
         return code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public static SeckillStateEnum stateOf (int code) {
+    public static SeckillStateEnum stateOf (Integer code) {
         for (SeckillStateEnum stateEnum : values()) {
             if (stateEnum.getCode() == code) {
                 return stateEnum;

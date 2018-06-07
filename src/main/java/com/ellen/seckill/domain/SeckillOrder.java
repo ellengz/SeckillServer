@@ -8,16 +8,16 @@ import java.util.Date;
 public class SeckillOrder {
 
     @EmbeddedId
-    private SeckillOrderCompositeKey seckillOrderCompositeKey;
+    private SeckillOrderId seckillOrderId;
     private byte state;
     private Date createTime;
 
-    public SeckillOrderCompositeKey getSeckillOrderCompositeKey() {
-        return seckillOrderCompositeKey;
+    public SeckillOrderId getSeckillOrderId() {
+        return seckillOrderId;
     }
 
-    public void setSeckillOrderCompositeKey(SeckillOrderCompositeKey seckillOrderCompositeKey) {
-        this.seckillOrderCompositeKey = seckillOrderCompositeKey;
+    public void setSeckillOrderId(SeckillOrderId seckillOrderId) {
+        this.seckillOrderId = seckillOrderId;
     }
 
     public byte getState() {
@@ -39,8 +39,8 @@ public class SeckillOrder {
     @Override
     public String toString() {
         return "SeckillOrder{" +
-                "productId=" + seckillOrderCompositeKey.getProductId() +
-                "userPhone=" + seckillOrderCompositeKey.getUserPhone() +
+                "productId=" + seckillOrderId.getProductId() +
+                "userPhone=" + seckillOrderId.getUserPhone() +
                 ", state=" + state +
                 ", createTime=" + createTime +
                 '}';
