@@ -19,6 +19,11 @@ public class UserController {
         return userService.register(user);
     }
 
+    @PostMapping(value = "/login")
+    public Result userLogin(User user) {
+        return userService.login(user);
+    }
+
     @GetMapping(value = "/user/test")
     public Result test() {
         return userService.findAll();

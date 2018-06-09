@@ -16,5 +16,11 @@ public class ResultUtil {
         return result;
     }
 
-    // TODO handle errors
+    // TODO handle errors, exceptions needed
+    public static Result userError(UserEnum userEnum) {
+        Result result = new Result();
+        result.setCode(userEnum.getCode());
+        result.setMsg(userEnum.getMsg());
+        return result;
+    }
 }

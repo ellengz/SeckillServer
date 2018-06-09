@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 public interface UserService {
 
     Result register(User user);
-    Result login(String token);
+    Result login(User user);
     Result findAll();
+    User findByUsername(String username);
 
 }

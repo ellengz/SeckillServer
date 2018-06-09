@@ -39,4 +39,13 @@ public class User {
     public void setEncryptPassword(String encryptPassword) {
         this.encryptPassword = encryptPassword;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", encryptPassword='" + encryptPassword + '\'' +
+                '}';
+    }
 }

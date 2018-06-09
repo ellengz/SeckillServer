@@ -4,6 +4,7 @@ public enum UserEnum {
     SUCCESS(0, "Welcome"),
     NO_MATCH(100, "Username or password is wrong"),
     REPEAT_USERNAME(200, "Username already exists, please choose another name"),
+    SILLY(-1, "Silly error for test"),
     ;
 
     private Integer code;

@@ -8,13 +8,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public class SecurityUtil {
 
+    static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     /**
      * encrypt str using BCrypt strong hashing function
      * @param str
      * @return encrypted str
      */
     public static String encrypt(String str) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(str);
     }
 
@@ -25,7 +26,7 @@ public class SecurityUtil {
      * @return true if match
      */
     public static boolean match(String rawStr, String encryptStr) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         return passwordEncoder.matches(rawStr, encryptStr);
     }
 }
