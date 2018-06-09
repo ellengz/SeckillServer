@@ -3,7 +3,8 @@ package com.ellen.seckill.service;
 import com.ellen.seckill.dao.UserDao;
 import com.ellen.seckill.domain.Result;
 import com.ellen.seckill.domain.User;
-import com.ellen.seckill.enums.UserEnum;
+import com.ellen.seckill.enums.UserStateEnum;
+import com.ellen.seckill.exception.UserException;
 import com.ellen.seckill.util.ResultUtil;
 import com.ellen.seckill.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result login(User user) {
-        if(user.getUsername() != null && user.getEncryptPassword() != null) {
-            User dbUser = findByUsername(user.getUsername());
-            if(SecurityUtil.match(user.getEncryptPassword(), dbUser.getEncryptPassword())) {
-                return ResultUtil.userSuccess("match");
-            } else {
-                return ResultUtil.userError(UserEnum.NO_MATCH);
-            }
+        // TODO let front-end handles validating for inputs
+        // null params will throw NO_MATCH error
+        User dbUser = findByUsername(user.getUsername());
+        if(dbUser != null && SecurityUtil.match(user.getEncryptPassword(), dbUser.getEncryptPassword())) {
+            //TODO should return token/api_key
+            return ResultUtil.userSuccess("match");
         } else {
-            return ResultUtil.userError(UserEnum.SILLY);
+            // user not exists or username-password pair not match
+            throw new UserException(UserStateEnum.NO_MATCH);
         }
     }
 
