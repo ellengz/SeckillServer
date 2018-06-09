@@ -9,6 +9,11 @@ import com.ellen.seckill.exception.UserException;
  */
 public class ResultUtil {
 
+    /**
+     * return a result with received object to front end when succeed
+     * @param object
+     * @return result
+     */
     public static Result userSuccess(Object object) {
         Result result = new Result();
         result.setCode(UserStateEnum.SUCCESS.getCode());
@@ -17,6 +22,12 @@ public class ResultUtil {
         return result;
     }
 
+    /**
+     * return exception info to front end
+     * called by exception handler (not service)
+     * @param userException
+     * @return result
+     */
     public static Result userException(UserException userException) {
         Result result = new Result();
         result.setCode(userException.getCode());
@@ -24,6 +35,10 @@ public class ResultUtil {
         return result;
     }
 
+    /**
+     * return info to let front end know the error is unidentified
+     * @return result
+     */
     public static Result unknownException() {
         Result result = new Result();
         result.setCode(-1);
