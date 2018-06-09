@@ -19,15 +19,30 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl() {
     }
 
+    /**
+     * register a new user
+     *
+     * @param user
+     * @return result
+     */
     @Override
     public Result register(User user) {
-        user.setEncryptPassword(SecurityUtil.encrypt(user.getEncryptPassword()));
-        return ResultUtil.userSuccess(userDao.save(user));
+        if(findByUsername(user.getUsername()) == null) {
+            user.setEncryptPassword(SecurityUtil.encrypt(user.getEncryptPassword()));
+            return ResultUtil.userSuccess(userDao.save(user));
+        } else {
+            throw new UserException(UserStateEnum.REPEAT_USERNAME);
+        }
     }
 
+    /**
+     * user login
+     *
+     * @param user
+     * @return result
+     */
     @Override
     public Result login(User user) {
-        // TODO let front-end handles validating for inputs
         // null params will throw NO_MATCH error
         User dbUser = findByUsername(user.getUsername());
         if(dbUser != null && SecurityUtil.match(user.getEncryptPassword(), dbUser.getEncryptPassword())) {
@@ -39,11 +54,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public Result findAll() {
-        return ResultUtil.userSuccess(userDao.findAll());
-    }
-
+    /**
+     * find user by username
+     *
+     * @param username
+     * @return user
+     */
     @Override
     public User findByUsername(String username) {
         return userDao.findUserByUsername(username);

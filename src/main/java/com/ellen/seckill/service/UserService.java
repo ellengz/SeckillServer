@@ -9,7 +9,6 @@ public interface UserService {
 
     Result register(User user);
     Result login(User user);
-    Result findAll();
     User findByUsername(String username);
 
 }

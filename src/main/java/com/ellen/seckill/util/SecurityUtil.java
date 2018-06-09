@@ -12,6 +12,7 @@ public class SecurityUtil {
 
     /**
      * encrypt str using BCrypt strong hashing function
+     *
      * @param str
      * @return encrypted str
      */
@@ -21,6 +22,7 @@ public class SecurityUtil {
 
     /**
      * verify if encryptStr matches rawStr after it is too encrypted
+     *
      * @param rawStr
      * @param encryptStr
      * @return true if match
@@ -29,4 +31,6 @@ public class SecurityUtil {
 
         return passwordEncoder.matches(rawStr, encryptStr);
     }
+
+    // TODO generate api_key
 }

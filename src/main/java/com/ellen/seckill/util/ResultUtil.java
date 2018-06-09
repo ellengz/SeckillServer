@@ -11,6 +11,7 @@ public class ResultUtil {
 
     /**
      * return a result with received object to front end when succeed
+     *
      * @param object
      * @return result
      */
@@ -25,6 +26,7 @@ public class ResultUtil {
     /**
      * return exception info to front end
      * called by exception handler (not service)
+     *
      * @param userException
      * @return result
      */
@@ -37,6 +39,7 @@ public class ResultUtil {
 
     /**
      * return info to let front end know the error is unidentified
+     *
      * @return result
      */
     public static Result unknownException() {

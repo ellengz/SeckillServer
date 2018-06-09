@@ -23,9 +23,4 @@ public class UserController {
     public Result userLogin(User user) {
         return userService.login(user);
     }
-
-    @GetMapping(value = "/user/test")
-    public Result test() {
-        return userService.findAll();
-    }
 }
