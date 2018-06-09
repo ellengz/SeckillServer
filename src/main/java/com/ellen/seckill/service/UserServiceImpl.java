@@ -28,4 +28,10 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public Result findAll() {
+        return ResultUtil.userSuccess(userDao.findAll());
+    }
+
+
 }

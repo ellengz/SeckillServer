@@ -9,5 +9,6 @@ public interface UserService {
 
     Result register(User user);
     Result login(String token);
+    Result findAll();
 
 }
