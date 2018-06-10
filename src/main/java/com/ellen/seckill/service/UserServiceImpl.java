@@ -5,6 +5,7 @@ import com.ellen.seckill.domain.Result;
 import com.ellen.seckill.domain.User;
 import com.ellen.seckill.enums.UserStateEnum;
 import com.ellen.seckill.exception.UserException;
+import com.ellen.seckill.util.CommonUtil;
 import com.ellen.seckill.util.ResultUtil;
 import com.ellen.seckill.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,15 @@ public class UserServiceImpl implements UserService {
      * register a new user
      *
      * @param user
-     * @return result
+     * @return a result
      */
     @Override
     public Result register(User user) {
         if(findByUsername(user.getUsername()) == null) {
             user.setEncryptPassword(SecurityUtil.encrypt(user.getEncryptPassword()));
-            return ResultUtil.userSuccess(userDao.save(user));
+            user.setCreateTime(CommonUtil.getCurrentTime());
+            userDao.save(user);
+            return ResultUtil.userSuccess();
         } else {
             throw new UserException(UserStateEnum.REPEAT_USERNAME);
         }
@@ -39,17 +42,18 @@ public class UserServiceImpl implements UserService {
      * user login
      *
      * @param user
-     * @return result
+     * @return a result with api key
      */
     @Override
     public Result login(User user) {
-        // null params will throw NO_MATCH error
         User dbUser = findByUsername(user.getUsername());
         if(dbUser != null && SecurityUtil.match(user.getEncryptPassword(), dbUser.getEncryptPassword())) {
-            //TODO should return token/api_key
-            return ResultUtil.userSuccess("match");
+            String apiKey = SecurityUtil.getApiKey();
+            dbUser.setApiKey(apiKey);
+            userDao.save(dbUser); // update database
+            return ResultUtil.userSuccess(apiKey);
         } else {
-            // user not exists or username-password pair not match
+            // null params, user not exists and username-password not match
             throw new UserException(UserStateEnum.NO_MATCH);
         }
     }
@@ -58,7 +62,7 @@ public class UserServiceImpl implements UserService {
      * find user by username
      *
      * @param username
-     * @return user
+     * @return the user
      */
     @Override
     public User findByUsername(String username) {

@@ -1,7 +1,25 @@
-CREATE DATABASE dbseckill;
+CREATE DATABASE IF NOT EXISTS dbseckill;
 USE dbseckill;
 
+-- user table
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE IF NOT EXISTS user (
+  user_id BIGINT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(120) NOT NULL,
+  encrypt_password VARCHAR(60) DEFAULT NULL,
+  api_key VARCHAR(60) DEFAULT NULL,
+  create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id),
+  UNIQUE KEY (api_key)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COMMENT 'user_table';
+
 -- seckill product table
+DROP TABLE IF EXISTS seckill_product;
+
 CREATE TABLE IF NOT EXISTS seckill_product (
   product_id  BIGINT       NOT NULL AUTO_INCREMENT,
   title       VARCHAR(120) NOT NULL,
@@ -22,7 +40,7 @@ CREATE TABLE IF NOT EXISTS seckill_product (
   COMMENT 'seckill_product_table';
 
 -- test data for stock table
-INSERT INTO seckill_product (name, number, start_time, end_time)
+INSERT INTO seckill_product (title, number, start_time, end_time)
 VALUES
   ('Brand new iPad 2 for 300AUD', 100, '2018-06-01 00:00:00', '2018-06-02 00:00:00'),
   ('Brand new iPhone 6 for 400AUD', 200, '2018-06-01 00:00:00', '2018-06-02 00:00:00'),
@@ -30,6 +48,8 @@ VALUES
   ('Brand new MacBook Pro for 1600AUD', 400, '2018-06-01 00:00:00', '2018-06-02 00:00:00');
 
 -- seckill order table
+DROP TABLE IF EXISTS seckill_order;
+
 CREATE TABLE IF NOT EXISTS seckill_order (
   product_id  BIGINT    NOT NULL,
   user_phone  BIGINT    NOT NULL,

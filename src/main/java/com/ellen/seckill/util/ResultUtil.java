@@ -23,6 +23,11 @@ public class ResultUtil {
         return result;
     }
 
+    // when no return content is needed
+    public static Result userSuccess() {
+        return userSuccess(null);
+    }
+
     /**
      * return exception info to front end
      * called by exception handler (not service)

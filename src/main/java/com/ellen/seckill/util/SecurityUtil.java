@@ -3,6 +3,8 @@ package com.ellen.seckill.util;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.UUID;
+
 /**
  * a util class to handle security-related operations
  */
@@ -32,5 +34,21 @@ public class SecurityUtil {
         return passwordEncoder.matches(rawStr, encryptStr);
     }
 
-    // TODO generate api_key
+    /**
+     * generate a UUID
+     *
+     * @return str
+     */
+    public static String getUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    /**
+     * use UUID as api key
+     *
+     * @return api key
+     */
+    public static final String getApiKey() {
+        return encrypt(getUUID());
+    }
 }
