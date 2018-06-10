@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS user (
   api_key VARCHAR(60) DEFAULT NULL,
   create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id),
-  UNIQUE KEY (api_key)
+  UNIQUE KEY (api_key),
+  UNIQUE KEY (username)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
