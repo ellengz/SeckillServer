@@ -3,6 +3,7 @@ package com.ellen.seckill.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Entity
@@ -12,10 +13,13 @@ public class SeckillProduct {
     @GeneratedValue
     private Long productId;
     private String title;
+    @Min(value = 0)
     private int number;
     private Date startTime;
     private Date endTime;
     private Date createTime;
+
+    public SeckillProduct() {}
 
     public long getProductId() {
         return productId;

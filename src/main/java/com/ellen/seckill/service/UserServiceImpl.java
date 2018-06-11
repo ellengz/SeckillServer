@@ -11,6 +11,8 @@ import com.ellen.seckill.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -30,7 +32,8 @@ public class UserServiceImpl implements UserService {
     public Result register(User user) {
         if(findByUsername(user.getUsername()) == null) {
             user.setEncryptPassword(SecurityUtil.encrypt(user.getEncryptPassword()));
-            user.setCreateTime(CommonUtil.getCurrentTime());
+            Date now = new Date();
+            user.setCreateTime(now);
             userDao.save(user);
             return ResultUtil.userSuccess();
         } else {

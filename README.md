@@ -2,7 +2,7 @@
 
 
 
-### Design
+## Design
 #### General
 - Use Hibernate JPA and MySQL
 - Return a Result (code, msg, data) for every request
@@ -12,17 +12,22 @@
 - Use ExceptionUtil (@ControllerAdvice) to capture Exceptions then call ResultUtil
 
 #### API
-Method | URL | Action | Param (required)
------- | --- | -----  | ---
-POST | /user | Create a new user | User (username, encrypPassword) 
-POST | /login | User login | User (username, encrypPassword)
-GET | /seckill | List all seckill products |
-POST | /seckill | Create a seckill product | SeckillProduct (title, number, startTime, endTime)
-GET | /seckill/id | Get product details by id |
-POST | /seckill/id | Buy this product | ?
+Method | Path | Action | Params (required) | Return Data
+------ | --- | -----  | --- | ---
+POST | /user | Create a new user | User (username, encryptPassword) |
+POST | /login | User login | User (username, encrypPassword) | apiKey
+GET | /product | List all seckill products | | 
+POST | /product/{productId} | Get product details by id | apiKey | secret key 
+POST | /product/{productId}/ | Buy the product | apiKey, secretKey | order
 
+### State
+Code | Type
+---- | ----
+200 | Success
+40X | Identified Error
+-1 | Unidentified Error
 
-### Features
+## Features
 - User Register
     - BCrypt (Spring Security) for password encryption
     - Unique username

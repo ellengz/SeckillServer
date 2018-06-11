@@ -1,7 +1,9 @@
 package com.ellen.seckill.util;
 
 import com.ellen.seckill.domain.Result;
+import com.ellen.seckill.enums.SeckillStateEnum;
 import com.ellen.seckill.enums.UserStateEnum;
+import com.ellen.seckill.exception.SeckillException;
 import com.ellen.seckill.exception.UserException;
 
 /**
@@ -53,4 +55,26 @@ public class ResultUtil {
         result.setMsg("UNKNOWN_SYSTEM_ERROR");
         return result;
     }
+
+    /**
+     * return a result with received object to front end when succeed
+     *
+     * @param object
+     * @return result
+     */
+    public static Result seckillSuccess(Object object) {
+        Result result = new Result();
+        result.setCode(SeckillStateEnum.SUCCESS.getCode());
+        result.setMsg(SeckillStateEnum.SUCCESS.getMsg());
+        result.setData(object);
+        return result;
+    }
+    
+    public static Result seckillException(SeckillException seckillException) {
+        Result result = new Result();
+        result.setCode(seckillException.getCode());
+        result.setMsg(seckillException.getMessage());
+        return result;
+    }
+            
 }
