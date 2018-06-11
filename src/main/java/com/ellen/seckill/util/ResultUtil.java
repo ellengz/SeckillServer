@@ -9,6 +9,7 @@ import com.ellen.seckill.exception.UserException;
 /**
  * encapsulate a result
  */
+// TODO repeat lines exist, methods can be further organised
 public class ResultUtil {
 
     /**
@@ -69,12 +70,18 @@ public class ResultUtil {
         result.setData(object);
         return result;
     }
-    
+
+    /**
+     * return product-related exception
+     *
+     * @param seckillException
+     * @return
+     */
     public static Result seckillException(SeckillException seckillException) {
         Result result = new Result();
         result.setCode(seckillException.getCode());
         result.setMsg(seckillException.getMessage());
         return result;
     }
-            
+
 }

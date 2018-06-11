@@ -18,7 +18,7 @@ POST | /user | Create a new user | User (username, encryptPassword) |
 POST | /login | User login | User (username, encrypPassword) | apiKey
 GET | /product | List all seckill products | | 
 POST | /product/{productId} | Get product details by id | apiKey | secret key 
-POST | /product/{productId}/ | Buy the product | apiKey, secretKey | order
+POST | /product/{productId}/execution | Buy the product | apiKey, secretKey | order
 
 ### State
 Code | Type
