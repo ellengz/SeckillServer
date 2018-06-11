@@ -1,12 +1,13 @@
 package com.ellen.seckill.enums;
 
+/**
+ * identified states for seckill-related behaviours
+ */
 public enum SeckillStateEnum {
     SUCCESS(200, "Order created"),
-    END(201, "Seckill ended"),
-    REPEATED_ORDER(400, "Repeated order, you can only kill a product once"),
-    DATA_REWRITE(401, "Illegal operation, please try again"),
-    INNER_ERROR(500, "System error, please try again later"),
-
+    END(400, "Seckill ended"),
+    REPEATED_ORDER(401, "Repeated order, you can only kill a product once"),
+    DATA_REWRITE(402, "Illegal operation, please try again"),
     ;
 
     private Integer code;
