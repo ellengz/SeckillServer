@@ -53,13 +53,16 @@ public class SeckillServiceImpl implements SeckillService {
         if (seckillProductDao.findById(productId).isPresent()) {
             SeckillProduct product = seckillProductDao.findById(productId).get();
             if (now.compareTo(product.getStartTime()) < 0) {
-                throw new SeckillException(SeckillStateEnum.NOT_START);
+                // not start yet, return system time
+                return ResultUtil.seckillSuccess(now);
+            } else if (now.compareTo(product.getEndTime()) > 0) {
+                throw new SeckillException(SeckillStateEnum.END);
             }
             String secretPath = SecurityUtil.encrypt(productId + apiKey);
             return ResultUtil.seckillSuccess(secretPath);
         }
 
-        throw new SeckillException(SeckillStateEnum.END); // product no longer exists or already ended
+        throw new SeckillException(SeckillStateEnum.NOT_EXIST);
     }
 
     /**
@@ -97,9 +100,9 @@ public class SeckillServiceImpl implements SeckillService {
     @Override
     @Transactional
     public int updateStock(Long productId) {
-        if(seckillProductDao.findById(productId).isPresent()) {
+        if (seckillProductDao.findById(productId).isPresent()) {
             SeckillProduct product = seckillProductDao.findById(productId).get();
-            if(product.getNumber() == 0) {
+            if (product.getNumber() == 0) {
                 return -1;
             }
             product.setNumber(product.getNumber() - 1);

@@ -6,7 +6,7 @@ package com.ellen.seckill.enums;
 public enum SeckillStateEnum {
     SUCCESS(200, "All good"),
     END(400, "Seckill ended"),
-    NOT_START(401, "Not start yet"),
+    NOT_EXIST(401, "Product not exist"),
     REPEATED_ORDER(402, "Repeated order, you can only kill a product once"),
     DATA_REWRITE(403, "Illegal operation, please try again"),
     NO_STOCK(404, "No stock remaining"),
