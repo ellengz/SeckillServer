@@ -4,10 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class SeckillProduct {
+public class SeckillProduct implements Serializable{
 
     @Id
     @GeneratedValue

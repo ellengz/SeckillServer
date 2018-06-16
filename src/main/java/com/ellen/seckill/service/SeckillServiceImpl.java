@@ -7,11 +7,16 @@ import com.ellen.seckill.enums.SeckillStateEnum;
 import com.ellen.seckill.exception.SeckillException;
 import com.ellen.seckill.util.ResultUtil;
 import com.ellen.seckill.util.SecurityUtil;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class SeckillServiceImpl implements SeckillService {
@@ -29,15 +34,9 @@ public class SeckillServiceImpl implements SeckillService {
         return ResultUtil.seckillSuccess(seckillProductDao.findAll());
     }
 
-    /**
-     * get product by productId
-     *
-     * @param productId
-     * @return a result with a product
-     */
     @Override
-    public Result getById(Long productId) {
-        return ResultUtil.seckillSuccess(seckillProductDao.findById(productId));
+    public SeckillProduct getById(Long productId) {
+        return seckillProductDao.findById(productId).get();
     }
 
     /**
@@ -47,19 +46,24 @@ public class SeckillServiceImpl implements SeckillService {
      * @param apiKey
      * @return a result with a secret path
      */
+    @Cacheable(value = "product", key = "#productId + #apiKey")
     @Override
     public Result getSecretKeyWithId(Long productId, String apiKey) {
         Date now = new Date();
-        if (seckillProductDao.findById(productId).isPresent()) {
-            SeckillProduct product = seckillProductDao.findById(productId).get();
+        SeckillProduct product = getById(productId);
+        JSONObject data = new JSONObject();
+        data.put("product", product);
+        if (product != null) {
             if (now.compareTo(product.getStartTime()) < 0) {
                 // not start yet, return system time
-                return ResultUtil.seckillSuccess(now);
+                data.put("time", now);
+                return ResultUtil.seckillSuccess(data);
             } else if (now.compareTo(product.getEndTime()) > 0) {
                 throw new SeckillException(SeckillStateEnum.END);
             }
             String secretPath = SecurityUtil.encrypt(productId + apiKey);
-            return ResultUtil.seckillSuccess(secretPath);
+            data.put("secretPath", secretPath);
+            return ResultUtil.seckillSuccess(data);
         }
 
         throw new SeckillException(SeckillStateEnum.NOT_EXIST);

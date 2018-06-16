@@ -1,6 +1,8 @@
 package com.ellen.seckill.domain;
 
-public class Result<T> {
+import java.io.Serializable;
+
+public class Result<T> implements Serializable{
 
     /** code **/
     private Integer code;
