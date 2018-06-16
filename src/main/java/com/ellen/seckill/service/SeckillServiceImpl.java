@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,8 +47,8 @@ public class SeckillServiceImpl implements SeckillService {
      * @param apiKey
      * @return a result with a secret path
      */
-    @Cacheable(value = "product", key = "#productId + #apiKey")
     @Override
+    @Cacheable(value = "product", key = "#productId + '/' + #apiKey")
     public Result getSecretKeyWithId(Long productId, String apiKey) {
         Date now = new Date();
         SeckillProduct product = getById(productId);
