@@ -2,7 +2,7 @@ package com.ellen.seckill.domain;
 
 import java.io.Serializable;
 
-public class Result<T> implements Serializable{
+public class Result<T>{
 
     /** code **/
     private Integer code;

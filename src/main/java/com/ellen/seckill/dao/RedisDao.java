@@ -4,8 +4,6 @@ import com.ellen.seckill.domain.SeckillProduct;
 import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtobufIOUtil;
 import io.protostuff.runtime.RuntimeSchema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -13,14 +11,21 @@ import redis.clients.jedis.JedisPool;
 @Repository
 public class RedisDao {
 
+    // threadsafe
     private final JedisPool jedisPool;
-    private final Logger logger = LoggerFactory.getLogger(RedisDao.class);
 
     public RedisDao() {
-//        jedisPool = new JedisPool(ip, port);
+        // use default host (localhost) and port (6379)
         jedisPool = new JedisPool();
     }
 
+    /**
+     * schema is used to encapsulate:
+     * the (de)serialization logic of an object
+     * the validation of an object’s required fields
+     * the mapping of an object’s field names to field numbers
+     * the instantiation of the object.
+     */
     private RuntimeSchema<SeckillProduct> schema = RuntimeSchema.createFrom(SeckillProduct.class);
 
     /**
@@ -55,13 +60,14 @@ public class RedisDao {
      * @return a string
      * @throws RuntimeException
      */
-    public String putProduct(SeckillProduct product) throws RuntimeException{
+    public String putProduct(SeckillProduct product) throws RuntimeException {
         Jedis jedis = jedisPool.getResource();
         try {
             String key = "productId:" + product.getProductId();
             // serialization
             byte[] bytes = ProtobufIOUtil.toByteArray(product, schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
-            int timeout = 60 * 60;
+            // discard cache after timeout
+            int timeout = 10 * 60;
             // return OK or error message
             String result = jedis.setex(key.getBytes(), timeout, bytes);
             return result;

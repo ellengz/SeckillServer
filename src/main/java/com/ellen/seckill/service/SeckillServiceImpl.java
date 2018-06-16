@@ -1,5 +1,6 @@
 package com.ellen.seckill.service;
 
+import com.ellen.seckill.dao.RedisDao;
 import com.ellen.seckill.dao.SeckillProductDao;
 import com.ellen.seckill.domain.Result;
 import com.ellen.seckill.domain.SeckillProduct;
@@ -25,6 +26,9 @@ public class SeckillServiceImpl implements SeckillService {
     @Autowired
     private SeckillProductDao seckillProductDao;
 
+    @Autowired
+    private RedisDao redisDao;
+
     /**
      * get product list
      *
@@ -45,29 +49,34 @@ public class SeckillServiceImpl implements SeckillService {
      *
      * @param productId
      * @param apiKey
-     * @return a result with a secret path
+     * @return a result with product info a secret path/system time
      */
     @Override
-    @Cacheable(value = "product", key = "#productId + '/' + #apiKey")
     public Result getSecretKeyWithId(Long productId, String apiKey) {
         Date now = new Date();
-        SeckillProduct product = getById(productId);
-        JSONObject data = new JSONObject();
-        data.put("product", product);
-        if (product != null) {
-            if (now.compareTo(product.getStartTime()) < 0) {
-                // not start yet, return system time
-                data.put("time", now);
-                return ResultUtil.seckillSuccess(data);
-            } else if (now.compareTo(product.getEndTime()) > 0) {
-                throw new SeckillException(SeckillStateEnum.END);
+        // search from cache
+        SeckillProduct product = redisDao.getProductById(productId);
+        if (product == null) {
+            product = getById(productId);
+            if (product != null) {
+                // put into cache
+                redisDao.putProduct(product);
+            } else {
+                throw new SeckillException(SeckillStateEnum.NOT_EXIST);
             }
-            String secretPath = SecurityUtil.encrypt(productId + apiKey);
-            data.put("secretPath", secretPath);
-            return ResultUtil.seckillSuccess(data);
         }
-
-        throw new SeckillException(SeckillStateEnum.NOT_EXIST);
+        JSONObject data = new JSONObject(); // data to be returned containing 2 parts
+        data.put("product", product);
+        if (now.compareTo(product.getStartTime()) < 0) {
+            // not start yet, return system time
+            data.put("time", now);
+            return ResultUtil.seckillSuccess(data);
+        } else if (now.compareTo(product.getEndTime()) > 0) {
+            throw new SeckillException(SeckillStateEnum.END);
+        }
+        String secretPath = SecurityUtil.encrypt(productId + apiKey);
+        data.put("secretPath", secretPath);
+        return ResultUtil.seckillSuccess(data);
     }
 
     /**
