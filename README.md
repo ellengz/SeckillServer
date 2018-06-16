@@ -17,7 +17,7 @@ Method | Path | Action | Params (required) | Return Data
 POST | /user | Create a new user | User (username, encryptPassword) |
 POST | /login | User login | User (username, encrypPassword) | apiKey
 GET | /product | List all seckill products | | 
-POST | /product/{productId} | Get product details by id | apiKey | secret key 
+POST | /product/{productId} | Get product details by id | apiKey | product info + secret key/system time 
 POST | /product/{productId}/execution | Buy the product | apiKey, secretKey | order
 
 ### State
@@ -33,4 +33,11 @@ Code | Type
     - Unique username
 - User Login
     - UUID as API key
-- Seckill (TBC)
+- Seckill
+    - Get product list
+    - When go to the detail page of a product, product info will be returned as well as
+        - if current time is valid, a secretPath
+        - otherwise, system time
+        - **Redis** is used in this process to decrease pressure on DB
+    - Use secretPath to seckill a product
+    - TBC
