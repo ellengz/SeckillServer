@@ -74,8 +74,8 @@ public class SeckillServiceImpl implements SeckillService {
         } else if (now.compareTo(product.getEndTime()) > 0) {
             throw new SeckillException(SeckillStateEnum.END);
         }
-        String secretPath = SecurityUtil.encrypt(productId + apiKey);
-        data.put("secretPath", secretPath);
+        String secretKey = SecurityUtil.encrypt(productId + apiKey);
+        data.put("secretKey", secretKey);
         return ResultUtil.seckillSuccess(data);
     }
 
