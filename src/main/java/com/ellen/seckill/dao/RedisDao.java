@@ -67,7 +67,7 @@ public class RedisDao {
             // serialization
             byte[] bytes = ProtobufIOUtil.toByteArray(product, schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
             // discard cache after timeout
-            int timeout = 10 * 60;
+            int timeout = 30 * 60;
             // return OK or error message
             String result = jedis.setex(key.getBytes(), timeout, bytes);
             return result;

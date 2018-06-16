@@ -30,7 +30,7 @@ public class SeckillServiceImpl implements SeckillService {
     private RedisDao redisDao;
 
     /**
-     * get product list
+     * get product list from DB
      *
      * @return a result with product list
      */
