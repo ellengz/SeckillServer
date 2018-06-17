@@ -12,6 +12,8 @@ public class SeckillOrder {
     private byte state;
     private Date createTime;
 
+    public SeckillOrder() {}
+
     public SeckillOrderId getSeckillOrderId() {
         return seckillOrderId;
     }
@@ -40,7 +42,7 @@ public class SeckillOrder {
     public String toString() {
         return "SeckillOrder{" +
                 "productId=" + seckillOrderId.getProductId() +
-                "userPhone=" + seckillOrderId.getUserPhone() +
+                "username=" + seckillOrderId.getUsername() +
                 ", state=" + state +
                 ", createTime=" + createTime +
                 '}';

@@ -1,8 +1,11 @@
 package com.ellen.seckill.service;
 
 import com.ellen.seckill.dao.RedisDao;
+import com.ellen.seckill.dao.SeckillOrderDao;
 import com.ellen.seckill.dao.SeckillProductDao;
 import com.ellen.seckill.domain.Result;
+import com.ellen.seckill.domain.SeckillOrder;
+import com.ellen.seckill.domain.SeckillOrderId;
 import com.ellen.seckill.domain.SeckillProduct;
 import com.ellen.seckill.enums.SeckillStateEnum;
 import com.ellen.seckill.exception.SeckillException;
@@ -25,6 +28,9 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Autowired
     private SeckillProductDao seckillProductDao;
+
+    @Autowired
+    private SeckillOrderDao seckillOrderDao;
 
     @Autowired
     private RedisDao redisDao;
@@ -88,13 +94,12 @@ public class SeckillServiceImpl implements SeckillService {
      * @return a result
      */
     @Override
-    public Result executeSeckill(Long productId, String apiKey, String secretKey) {
+    public Result executeSeckill(Long productId, String apiKey, String secretKey, String username) {
         if (SecurityUtil.match(productId + apiKey, secretKey)) {
             int code = updateStock(productId);
             switch (code) {
                 case 0:
-                    // TODO create and return SeckillOrder
-                    return ResultUtil.seckillSuccess("where is the order?");
+                    return ResultUtil.seckillSuccess(createOrder(productId, username));
                 case -1:
                     throw new SeckillException(SeckillStateEnum.NO_STOCK);
                 case -2:
@@ -126,5 +131,51 @@ public class SeckillServiceImpl implements SeckillService {
             return 0;
         }
         return -2;
+    }
+
+    /**
+     * create a order
+     *
+     * @param productId
+     * @param username
+     * @return a order
+     */
+    @Override
+    @Transactional
+    public SeckillOrder createOrder(Long productId, String username) {
+        SeckillOrderId orderId = new SeckillOrderId(productId, username);
+        if (seckillOrderDao.existsById(orderId)) {
+            throw new SeckillException(SeckillStateEnum.REPEATED_ORDER);
+        } else {
+            SeckillOrder order = new SeckillOrder();
+            order.setSeckillOrderId(orderId);
+            order.setCreateTime(new Date());
+            byte state = 0;
+            order.setState(state);
+            return seckillOrderDao.save(order);
+        }
+    }
+
+    /**
+     * get a specific order
+     *
+     * @param productId
+     * @param username
+     * @return
+     */
+    @Override
+    public Result getOrder(Long productId, String username) {
+        return ResultUtil.seckillSuccess(seckillOrderDao.findById(new SeckillOrderId(productId, username)));
+    }
+
+    /**
+     * get order list by username
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public Result getOrderList(String username) {
+        return ResultUtil.seckillSuccess(seckillOrderDao.findBySeckillOrderIdUsername(username));
     }
 }

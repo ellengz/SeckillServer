@@ -4,18 +4,18 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class SeckillOrderId implements Serializable{
+public class SeckillOrderId implements Serializable {
 
     private Long productId;
-    private Long userPhone;
+    private String username;
 
     public SeckillOrderId() {
 
     }
 
-    public SeckillOrderId(Long productId, Long userPhone) {
+    public SeckillOrderId(Long productId, String username) {
         this.productId = productId;
-        this.userPhone = userPhone;
+        this.username = username;
     }
 
     public long getProductId() {
@@ -26,12 +26,12 @@ public class SeckillOrderId implements Serializable{
         this.productId = productId;
     }
 
-    public long getUserPhone() {
-        return userPhone;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserPhone(Long userPhone) {
-        this.userPhone = userPhone;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -47,11 +47,11 @@ public class SeckillOrderId implements Serializable{
         if (productId != that.productId) {
             return false;
         }
-        return userPhone == that.userPhone;
+        return username == that.username;
     }
 
     @Override
     public int hashCode() {
-        return 31 * (productId == null? 0 : productId.hashCode()) + (userPhone == null? 0 : userPhone.hashCode());
+        return 31 * (productId == null ? 0 : productId.hashCode()) + (username == null ? 0 : username.hashCode());
     }
 }

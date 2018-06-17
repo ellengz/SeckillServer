@@ -26,7 +26,19 @@ public class ProductController {
     @PostMapping(value = "/product/{productId}/execution")
     public Result executeSeckill(@PathVariable("productId") Long productId,
                                  @RequestParam("secretPath") String secretPath,
-                                 @RequestParam("apiKey") String apiKey) {
-        return seckillService.executeSeckill(productId, apiKey, secretPath);
+                                 @RequestParam("apiKey") String apiKey,
+                                 @RequestParam("username") String username) {
+        return seckillService.executeSeckill(productId, apiKey, secretPath, username);
+    }
+
+    @PostMapping(value = "/order")
+    public Result getOrderList(@RequestParam("username") String username) {
+        return seckillService.getOrderList(username);
+    }
+
+    @PostMapping(value = "/order/{productId}")
+    public Result getOrder(@PathVariable("productId") Long productId,
+                                 @RequestParam("username") String username) {
+        return seckillService.getOrder(productId, username);
     }
 }

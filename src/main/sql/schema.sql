@@ -43,21 +43,21 @@ CREATE TABLE IF NOT EXISTS seckill_product (
 -- test data for stock table
 INSERT INTO seckill_product (title, number, start_time, end_time)
 VALUES
-  ('Brand new iPad 2 for 300AUD', 100, '2018-06-01 00:00:00', '2018-06-02 00:00:00'),
-  ('Brand new iPhone 6 for 400AUD', 200, '2018-06-01 00:00:00', '2018-06-02 00:00:00'),
-  ('Brand new MacBook Air for 1000AUD', 300, '2018-06-01 00:00:00', '2018-06-02 00:00:00'),
-  ('Brand new MacBook Pro for 1600AUD', 400, '2018-06-01 00:00:00', '2018-06-02 00:00:00');
+  ('Brand new iPad 2 for 300AUD', 100, '2018-06-15 00:00:00', '2018-07-01 00:00:00'),
+  ('Brand new iPhone 6 for 400AUD', 200, '2018-06-15 00:00:00', '2018-07-01 00:00:00'),
+  ('Brand new MacBook Air for 1000AUD', 300, '2018-07-01 00:00:00', '2018-07-02 00:00:00'),
+  ('Brand new MacBook Pro for 1600AUD', 400, '2018-07-01 00:00:00', '2018-07-02 00:00:00');
 
 -- seckill order table
 DROP TABLE IF EXISTS seckill_order;
 
 CREATE TABLE IF NOT EXISTS seckill_order (
   product_id  BIGINT    NOT NULL,
-  user_phone  BIGINT    NOT NULL,
+  username  VARCHAR(120),
   state       TINYINT   NOT NULL DEFAULT -1
   COMMENT '-1: invalid, 0: success, 1: paid, 2: shipped',
   create_time TIMESTAMP NOT NULL,
-  PRIMARY KEY (product_id, user_phone),
+  PRIMARY KEY (product_id, username),
   KEY idx_create_time(create_time)
 )
   ENGINE = InnoDB
