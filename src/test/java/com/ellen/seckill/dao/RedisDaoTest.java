@@ -2,6 +2,7 @@ package com.ellen.seckill.dao;
 
 import com.ellen.seckill.domain.SeckillProduct;
 import com.ellen.seckill.service.SeckillService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class RedisDaoTest {
 
     private long id = 1001;
+    private static SeckillProduct product;
 
     @Autowired
     private RedisDao redisDao;
@@ -21,16 +23,27 @@ public class RedisDaoTest {
     private SeckillService seckillService;
 
     @Test
-    public void testRedis() throws RuntimeException{
-        SeckillProduct product = redisDao.getProductById(id);
+    public void testRedis() throws RuntimeException {
+        product = redisDao.getProductById(id);
         if (product == null) {
-            product = seckillService.getById(id);
-            if (product != null) {
-                System.out.println(redisDao.putProduct(product));
-                System.out.println(redisDao.getProductById(id));
-            }
+            testRedisPut();
+            testRedisDel();
+        } else {
+            testRedisDel();
+            testRedisPut();
         }
+    }
 
+    public void testRedisPut() throws RuntimeException {
+        product = seckillService.getById(id);
+        if (product != null) {
+            Assert.assertEquals(redisDao.putProduct(product), "OK");
+        }
+    }
+
+    public void testRedisDel() throws RuntimeException {
+        redisDao.deleteProductById(id);
+        Assert.assertEquals(redisDao.getProductById(id), null);
     }
 
 
