@@ -75,4 +75,21 @@ public class RedisDao {
             jedis.close();
         }
     }
+
+    /**
+     * delete from Redis by key
+     *
+     * @param productId
+     * @return
+     * @throws RuntimeException
+     */
+    public Long deleteProductById(Long productId) throws RuntimeException {
+        Jedis jedis = jedisPool.getResource();
+        try {
+            String key = "productId:" + productId;
+            return jedis.del(key);
+        } finally {
+            jedis.close();
+        }
+    }
 }

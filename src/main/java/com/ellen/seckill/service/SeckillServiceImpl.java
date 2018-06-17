@@ -117,6 +117,8 @@ public class SeckillServiceImpl implements SeckillService {
         if (seckillProductDao.findById(productId).isPresent()) {
             SeckillProduct product = seckillProductDao.findById(productId).get();
             if (product.getNumber() == 0) {
+                // when stock reaches 0, delete the product from redis to ensure consistency
+                redisDao.deleteProductById(productId);
                 return -1;
             }
             product.setNumber(product.getNumber() - 1);
