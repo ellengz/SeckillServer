@@ -17,9 +17,11 @@ Method | Path | Action | Params (required) | Return Data
 ------ | --- | -----  | --- | ---
 POST | /user | Create a new user | User (username, encryptPassword) |
 POST | /login | User login | User (username, encrypPassword) | apiKey
-GET | /product | List all seckill products | | 
-POST | /product/{productId} | Get product details by id | apiKey | product info + secret key/system time 
-POST | /product/{productId}/execution | Buy the product | apiKey, secretKey | order (TBC)
+GET | /product | List all seckill products | | list of products
+POST | /product/{productId} | Get product details by id | apiKey | product info + secreKey/systemTime (not start) 
+POST | /product/{productId}/execution | Buy the product | apiKey, secretKey | order
+POST | /order | List all orders | username | list of orders
+POST | /order/{prodcutId} | Get specific order by id | username | order
 
 ### State
 Code | Type
@@ -34,7 +36,7 @@ Code | Type
     - Unique username
 - User Login
     - UUID as API key
-- Seckill
+- Seckill Product
     - Get product list
     - When go to the detail page of a product, product info will be returned as well as
         - if current time is valid, a secretKey
@@ -42,4 +44,9 @@ Code | Type
         - **Redis** is used in this process to store product info, timeout is set as 30mins
     - secretPath is needed in order to seckill a product
     - When stock is detected as 0 during execution, Redis will delete the product info to ensure consistency 
-    - TBC
+    - Return an order when seckill-execution succeeded
+- Seckill Order
+    - Create an order when seckill-execution succeeded
+        - productId and username is combined as embeddedId for an order so that one user can only seckill a product once
+    - Get order list
+    - Get a specific order

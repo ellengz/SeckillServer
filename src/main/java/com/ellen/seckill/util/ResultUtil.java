@@ -3,13 +3,13 @@ package com.ellen.seckill.util;
 import com.ellen.seckill.domain.Result;
 import com.ellen.seckill.enums.SeckillStateEnum;
 import com.ellen.seckill.enums.UserStateEnum;
+import com.ellen.seckill.exception.BaseException;
 import com.ellen.seckill.exception.SeckillException;
 import com.ellen.seckill.exception.UserException;
 
 /**
  * encapsulate a result
  */
-// TODO repeat lines exist, methods can be further organised
 public class ResultUtil {
 
     /**
@@ -26,35 +26,11 @@ public class ResultUtil {
         return result;
     }
 
-    // when no return content is needed
+    /**
+     * when no return content is needed
+     */
     public static Result userSuccess() {
         return userSuccess(null);
-    }
-
-    /**
-     * return exception info to front end
-     * called by exception handler (not service)
-     *
-     * @param userException
-     * @return result
-     */
-    public static Result userException(UserException userException) {
-        Result result = new Result();
-        result.setCode(userException.getCode());
-        result.setMsg(userException.getMessage());
-        return result;
-    }
-
-    /**
-     * return info to let front end know the error is unidentified
-     *
-     * @return result
-     */
-    public static Result unknownException() {
-        Result result = new Result();
-        result.setCode(-1);
-        result.setMsg("UNKNOWN_SYSTEM_ERROR");
-        return result;
     }
 
     /**
@@ -72,16 +48,27 @@ public class ResultUtil {
     }
 
     /**
-     * return product-related exception
+     * return an exception
      *
-     * @param seckillException
+     * @param e
      * @return
      */
-    public static Result seckillException(SeckillException seckillException) {
+    public static Result exception(BaseException e) {
         Result result = new Result();
-        result.setCode(seckillException.getCode());
-        result.setMsg(seckillException.getMessage());
+        result.setCode(e.getCode());
+        result.setMsg(e.getMessage());
         return result;
     }
 
+    /**
+     * return info to let front end know the error is unidentified
+     *
+     * @return result
+     */
+    public static Result unknownException() {
+        Result result = new Result();
+        result.setCode(-1);
+        result.setMsg("UNKNOWN_SYSTEM_ERROR");
+        return result;
+    }
 }

@@ -47,7 +47,10 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public SeckillProduct getById(Long productId) {
-        return seckillProductDao.findById(productId).get();
+        if (seckillProductDao.findById(productId).isPresent()) {
+            return seckillProductDao.findById(productId).get();
+        }
+        throw new SeckillException(SeckillStateEnum.NOT_EXIST);
     }
 
     /**
@@ -64,12 +67,9 @@ public class SeckillServiceImpl implements SeckillService {
         SeckillProduct product = redisDao.getProductById(productId);
         if (product == null) {
             product = getById(productId);
-            if (product != null) {
-                // put into cache
-                redisDao.putProduct(product);
-            } else {
-                throw new SeckillException(SeckillStateEnum.NOT_EXIST);
-            }
+            // put into cache
+            redisDao.putProduct(product);
+
         }
         JSONObject data = new JSONObject(); // data to be returned containing 2 parts
         data.put("product", product);
@@ -106,7 +106,6 @@ public class SeckillServiceImpl implements SeckillService {
                     throw new RuntimeException();
             }
         }
-
         throw new SeckillException(SeckillStateEnum.DATA_REWRITE);
     }
 
