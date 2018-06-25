@@ -11,8 +11,8 @@ import java.util.Optional;
 public interface SeckillService {
 
     Result getList();
-    Result getSecretKeyWithId(Long productId, String apiKey);
-    Result executeSeckill(Long productId, String apiKey, String secretKey, String userPhone);
+    Result getSecretKeyWithId(Long productId, String userToken);
+    Result executeSeckill(Long productId, String userToken, String secretKey, String userPhone);
     SeckillProduct getById(Long productId);
     SeckillOrder createOrder(Long productId, String username);
     Result getOrder(Long productId, String username);

@@ -8,10 +8,11 @@ CREATE TABLE IF NOT EXISTS user (
   user_id BIGINT NOT NULL AUTO_INCREMENT,
   username VARCHAR(120) NOT NULL,
   encrypt_password VARCHAR(60) DEFAULT NULL,
-  api_key VARCHAR(60) DEFAULT NULL,
+  user_token VARCHAR(60) DEFAULT NULL,
+  fb_token VARCHAR(256) DEFAULT NULL,
   create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id),
-  UNIQUE KEY (api_key),
+  UNIQUE KEY (user_token),
   UNIQUE KEY (username)
 )
   ENGINE = InnoDB

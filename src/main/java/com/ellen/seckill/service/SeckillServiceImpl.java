@@ -89,13 +89,13 @@ public class SeckillServiceImpl implements SeckillService {
      * update stock
      *
      * @param productId
-     * @param apiKey
+     * @param userToken
      * @param secretKey
      * @return a result
      */
     @Override
-    public Result executeSeckill(Long productId, String apiKey, String secretKey, String username) {
-        if (SecurityUtil.match(productId + apiKey, secretKey)) {
+    public Result executeSeckill(Long productId, String userToken, String secretKey, String username) {
+        if (SecurityUtil.match(productId + userToken, secretKey)) {
             int code = updateStock(productId);
             switch (code) {
                 case 0:

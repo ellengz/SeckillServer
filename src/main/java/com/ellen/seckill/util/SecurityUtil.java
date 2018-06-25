@@ -44,11 +44,11 @@ public class SecurityUtil {
     }
 
     /**
-     * use UUID as api key
+     * use UUID as user token
      *
-     * @return api key
+     * @return user token
      */
-    public static final String getApiKey() {
+    public static final String getUserToken() {
         return encrypt(getUUID());
     }
 }

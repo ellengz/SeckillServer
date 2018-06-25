@@ -13,8 +13,9 @@ public class User {
     private Long userId;
     private String username;
     private String encryptPassword;
-    private String apiKey;
+    private String userToken;
     private Date createTime;
+    private String fbToken;
 
     public User() {
     }
@@ -43,12 +44,12 @@ public class User {
         this.encryptPassword = encryptPassword;
     }
 
-    public String getApiKey() {
-        return apiKey;
+    public String getUserToken() {
+        return userToken;
     }
 
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public Date getCreateTime() {
@@ -59,14 +60,23 @@ public class User {
         this.createTime = createTime;
     }
 
+    public String getFbToken() {
+        return fbToken;
+    }
+
+    public void setFbToken(String fbToken) {
+        this.fbToken = fbToken;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", encryptPassword='" + encryptPassword + '\'' +
-                ", apiKey='" + apiKey + '\'' +
+                ", userToken='" + userToken + '\'' +
                 ", createTime=" + createTime +
+                ", fbToken='" + fbToken + '\'' +
                 '}';
     }
 }
