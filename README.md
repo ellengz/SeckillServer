@@ -18,8 +18,8 @@ Method | Path | Action | Params (required) | Return Data
 POST | /user | Create a new user | User | userToken
 POST | /login | User login | User (username, encrypPassword) | 
 GET | /product | List all seckill products | | list of products
-POST | /product/{productId} | Get product details by id | user token | product info + secreKey/systemTime (not start) 
-POST | /product/{productId}/execution | Buy the product | user token, secretKey | order
+POST | /product/{productId} | Get product details by id | userToken | product info + secretKey or systemTime (not start) 
+POST | /product/{productId}/execution | Buy the product | userToken, secretKey | order
 POST | /order | List all orders | username | list of orders
 POST | /order/{prodcutId} | Get specific order by order id | username | order
 
@@ -37,6 +37,11 @@ Code | Type
     - UUID as user token
     - Support third party user token (now: Facebook)
 - User Login
+    - Username/Password
+    - Third party
+        - Frontend should call Register if third party login succeeded
+        - Third party user token will be recorded in DB
+        - App userToken will be returned to frontend 
 - Seckill Product
     - Get product list
     - When go to the detail page of a product, product info will be returned as well as
