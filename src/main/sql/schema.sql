@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS dbseckill;
+DROP DATABASE IF EXISTS dbseckill;
+CREATE DATABASE dbseckill;
 USE dbseckill;
 
 -- user table
@@ -18,6 +19,10 @@ CREATE TABLE IF NOT EXISTS user (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COMMENT 'user_table';
+
+-- test data
+INSERT INTO user (username, encrypt_password, user_token, create_time)
+VALUES ('test', 'test', 'test', CURRENT_TIMESTAMP);
 
 -- seckill product table
 DROP TABLE IF EXISTS seckill_product;
